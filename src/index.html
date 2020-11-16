@@ -6,7 +6,7 @@
   <!-- Roboto and Material Icons fonts -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
-  <title>Restaurant Search</title>
+  <title>Restaurant Finder</title>
 </head>
 <body>
   <!-- Container -->
@@ -14,16 +14,19 @@
     <!-- Search Container -->
     <div class="search-container">
       <img id="logo" src="./images/cutlery.png" alt="Restaurant Logo">
-      <h1>Restaurant Search</h1>
-      <p>Search by Outcode</p>
+      <h1>Restaurant Finder</h1>
+      <p>Search for Restaurant Postcode</p>
       <mwc-textfield class="search" id="search-box" outlined placeholder="Search" iconTrailing="search"></mwc-textfield>
-      <mwc-button class="search" id="search">Find Restaurants</mwc-button>
+      <div class="button-container">
+        <mwc-button class="btn-group" id="search" unelevated>Find Restaurants</mwc-button>
+        <mwc-button class="btn-group warn" id="clear-btn" icon="backspace">Clear</mwc-button>
+      </div>
     </div>
     <div class="search-actions">
     </div>
     <!-- Search Results Container -->
     <div class="results-container" id="results">
-      <div class="item">
+      <!-- <div class="item">
         <div class="restaurant-img">
           <img src="https://d30v2pzvrfyzpo.cloudfront.net/uk/images/restaurants/11245.gif" alt=""/>
         </div>
@@ -38,7 +41,7 @@
             <div class="status"><div class="icon yes"></div> Delivery</div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </body>
