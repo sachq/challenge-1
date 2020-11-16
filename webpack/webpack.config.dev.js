@@ -19,9 +19,6 @@ module.exports = merge(common, {
     new Webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
-    // new StylelintPlugin({
-    //   files: Path.join('src', '**/*.s?(a|c)ss')
-    // })
   ],
   module: {
     rules: [
