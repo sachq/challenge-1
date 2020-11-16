@@ -49,7 +49,7 @@ div.container {
       padding: 1.6rem;
       margin: 0.6rem 0;
       div.restaurant-img {
-        margin-right: 1rem;
+        margin-right: 1.4rem;
       }
       div.item-details {
         display: flex;
@@ -75,10 +75,17 @@ div.container {
           justify-content: space-between;
           width: 100%;
           div.info {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            align-items: flex-start;
             font-size: 1.2rem; 
             font-weight: 300;
             span.value {
-              font-size: 1.4rem;
+              font-size: 1.2rem;
+              .star {
+                color: #ffca00;
+              }
             }
           }
           div.status {
@@ -102,6 +109,15 @@ div.container {
       }
     }
   }
+}
+
+div#no-match {
+  font-size: 1rem;
+  font-weight: 300;
+  padding: 1rem;
+  background: #f4564b6b;
+  border-radius: 4px;
+  color: #000;
 }
 
 /* Component Styles */
