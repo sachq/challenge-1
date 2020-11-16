@@ -50,6 +50,15 @@ export class Restaurant {
       this.searchField.mdcFoundation.getNativeInput_().value = '';
       this.searchRestaurants('');
     });
+
+    // Get Geolocation
+    if('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(`Location: ${position.coords.latitude, position.coords.longitude}`);
+      });
+    } else {
+      /* geolocation IS NOT available */
+    }
   }
 
   /**
@@ -57,8 +66,16 @@ export class Restaurant {
    * @param {*} restaurants 
    */
   showRestaurants(restaurants) {
-    const restaurantsMap = restaurants.map(restaurant => this.generateTemplate(restaurant));
-    this.resultsContainer.innerHTML = restaurantsMap.join('');
+    if (restaurants.length) {
+      const restaurantsMap = restaurants.map(restaurant => this.generateTemplate(restaurant));
+      this.resultsContainer.innerHTML = restaurantsMap.join('');
+    } else {
+      this.resultsContainer.innerHTML = `
+        <div id="no-match">No Matching Restaurants with Postcode 
+          <strong><em>'${this.searchField.mdcFoundation.getNativeInput_().value}'</em></strong>
+        </div>
+      `;
+    }
   }
 
   /**
@@ -89,7 +106,7 @@ export class Restaurant {
         <div class="address">${restaurant.address} <strong>${restaurant.postcode}</strong></div>
         <div class="restaurant-info">
           <div class="detail">
-            <div class="info"><strong>Ratings</strong> <span class="value">${restaurant.rating}</span></div>
+            <div class="info"><strong>Ratings</strong> <span class="value">${this.ratingGenerator(restaurant.rating)}</span></div>
             <div class="info"><strong>Cuisines</strong> <span class="value">${restaurant.cuisines}</span></div>
           </div>
           <div class="status">
@@ -106,6 +123,11 @@ export class Restaurant {
    * @param rating Restaurant Rating
    */
   ratingGenerator(rating) {
-
+    let ratingTemplate = '';
+    for (let i = 0; i < parseInt(rating); i++) {
+      ratingTemplate += '<mwc-icon class="star">star</mwc-icon>';
+    }
+    if (parseInt(rating) !== rating) ratingTemplate += '<mwc-icon class="star">star_half</mwc-icon>';
+    return ratingTemplate;
   }
 }

@@ -1,6 +1,9 @@
 // Custom Styles for the app
 import '../styles/main.scss';
 
+// Favicon
+import '../images/favicon.ico';
+
 // Material Design Components
 import '@material/mwc-textfield';
 import '@material/mwc-button';
