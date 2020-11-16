@@ -16,7 +16,7 @@ export class Restaurant {
         rating: restaurant.RatingDetails.StarRating,
         isDelivery: restaurant.IsDelivery
       };
-    });
+    }).sort((a, b) => b.rating - a.rating);
 
     // Select all required Elements
     this.searchBtn = document.getElementById(options.searchBtn || 'search');
@@ -52,13 +52,9 @@ export class Restaurant {
     });
 
     // Get Geolocation
-    if('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log(`Location: ${position.coords.latitude, position.coords.longitude}`);
-      });
-    } else {
-      /* geolocation IS NOT available */
-    }
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.info(`Location: ${position.coords.latitude}, ${position.coords.longitude}`);
+    });
   }
 
   /**
@@ -123,6 +119,7 @@ export class Restaurant {
    * @param rating Restaurant Rating
    */
   ratingGenerator(rating) {
+    if (!rating) return '-';
     let ratingTemplate = '';
     for (let i = 0; i < parseInt(rating); i++) {
       ratingTemplate += '<mwc-icon class="star">star</mwc-icon>';
