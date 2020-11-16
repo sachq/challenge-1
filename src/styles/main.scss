@@ -46,7 +46,7 @@ div.container {
       border-radius: 4px;
       background-color: $card-color;
       border: 1px solid rgba(0,0,0,0.2);
-      padding: 1.8rem 2rem;
+      padding: 1.6rem;
       margin: 0.6rem 0;
       div.restaurant-img {
         margin-right: 1rem;
@@ -105,9 +105,14 @@ div.container {
 }
 
 /* Component Styles */
-mwc-button.search {
+mwc-button.btn-group {
   margin-top: 2%;
 }
+
+mwc-button.warn {
+  --mdc-theme-primary: #f4564b;
+}
+
 mwc-textfield.search {
   --mdc-shape-small: 28px;
   width: 100%;
