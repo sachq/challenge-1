@@ -17,14 +17,39 @@ export class Restaurant {
         isDelivery: restaurant.IsDelivery
       };
     });
-    this.searchBtn = document.getElementById(options.searchBtn);
-    this.searchField = document.getElementById(options.searchField);
-    this.resultsContainer = document.getElementById(options.containerEl);
+
+    // Select all required Elements
+    this.searchBtn = document.getElementById(options.searchBtn || 'search');
+    this.clearBtn = document.getElementById(options.clearBtn || 'clear-btn');
+    this.searchField = document.getElementById(options.searchField || 'search-box');
+    this.resultsContainer = document.getElementById(options.containerEl || 'results');
   }
 
   init() {
     this.initializeEvents();
     this.showRestaurants(this.openRestaurants);
+  }
+
+  /**
+   * Initialize all Event Listeners
+   */
+  initializeEvents() {
+    // Get value of Search field on click event
+    this.searchBtn.addEventListener(
+      'click', () => this.searchRestaurants(this.searchField.mdcFoundation.getNativeInput_().value)
+    );
+
+    // Get value of Search field on keyup event (when user types) (eg. EC1Y 8JL)
+    this.searchField.addEventListener('keyup', e => {
+      if (e.key === "Enter")
+        this.searchRestaurants(this.searchField.mdcFoundation.getNativeInput_().value);
+    });
+
+    // Clear Search & Reset
+    this.clearBtn.addEventListener('click', e => {
+      this.searchField.mdcFoundation.getNativeInput_().value = '';
+      this.searchRestaurants('');
+    });
   }
 
   /**
@@ -37,43 +62,50 @@ export class Restaurant {
   }
 
   /**
-   * Initialize all Event Listeners
-   */
-  initializeEvents() {
-    // this.searchField.mdcFoundation
-    this.searchBtn.addEventListener('click', () => {
-      console.log(this.searchField.mdcFoundation.getNativeInput_().value);
-    });
-  }
-
-  /**
-   * Search Restaurants based on 
-   * the Outcode (Postcode)
+   * Search Restaurants
+   * Match Restaurant Postcode
+   * @param searchTerm
    */  
-  searchRestaurants() {
-
+  searchRestaurants(searchTerm) {
+    const openRestaurants = this.openRestaurants.filter(restaurant => 
+      new RegExp(searchTerm.toLowerCase(), 'i')
+        .test(`${restaurant.postcode}`)
+    );
+    this.showRestaurants(openRestaurants);
   }
 
   /**
    * Search Item Template
    * @param restaurant Open Restaurant Object
+   * @returns Item Tempate
    */
   generateTemplate = (restaurant) => `
-      <div class="item">
-        <div class="restaurant-img">
-          <img src="${restaurant.logoUrl}" alt="${restaurant.name}"/>
-        </div>
-        <div class="item-details">
-          <div class="name">${restaurant.name}</div>
-          <div class="address">${restaurant.address} <strong>${restaurant.postcode}</strong></div>
-          <div class="restaurant-info">
-            <div class="detail">
-              <div class="info"><strong>Ratings</strong> <span class="value">${restaurant.rating}</span></div>
-              <div class="info"><strong>Cuisines</strong> <span class="value">${restaurant.cuisines}</span></div>
-            </div>
-            <div class="status"><div class="icon yes"></div> Delivery</div>
+    <div class="item">
+      <div class="restaurant-img">
+        <img src="${restaurant.logoUrl}" alt="${restaurant.name}"/>
+      </div>
+      <div class="item-details">
+        <div class="name">${restaurant.name}</div>
+        <div class="address">${restaurant.address} <strong>${restaurant.postcode}</strong></div>
+        <div class="restaurant-info">
+          <div class="detail">
+            <div class="info"><strong>Ratings</strong> <span class="value">${restaurant.rating}</span></div>
+            <div class="info"><strong>Cuisines</strong> <span class="value">${restaurant.cuisines}</span></div>
+          </div>
+          <div class="status">
+            <div class="icon ${(restaurant.isDelivery) ? 'yes' : 'no'}"></div> ${restaurant.isDelivery ? 'Delivery' : 'No Delivery'}
           </div>
         </div>
       </div>
-    `;
+    </div>
+  `;
+
+  /**
+   * Generate Material Icon Component 
+   * for Generating Star
+   * @param rating Restaurant Rating
+   */
+  ratingGenerator(rating) {
+
+  }
 }
