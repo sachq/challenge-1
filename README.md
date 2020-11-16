@@ -21,3 +21,4 @@ $ npm start
 * Geolocation is not fully integrated into the app; right now, it will ask for user consent and display the coordinates in the console. There are two good approaches to implement it:
   * By calculating the distance between the user and restaurant using the geo-coordinates: https://www.geodatasource.com/developers/javascript
   * or By using Google Maps API (geocoding) to get `postal_code` of the location and filtering through our Restaurant Data.
+* Restaurants are sorted based on their rating.
