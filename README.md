@@ -14,4 +14,7 @@ $ npm start
 ```
 
 ## Note
-**[Webpack App Starter](https://github.com/wbkd/webpack-starter)** <br/>
+* Used starter pack **[Webpack App Starter](https://github.com/wbkd/webpack-starter)** <br/>
+* Used Material components to make the page look more snazzy. Components used are:
+  * Text field
+  * Button
