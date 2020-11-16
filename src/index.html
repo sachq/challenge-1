@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Roboto and Material Icons fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet">
+  <title>Restaurant Search</title>
+</head>
+<body>
+  <!-- Container -->
+  <div class="container">
+    <!-- Search Container -->
+    <div class="search-container">
+      <img id="logo" src="./images/cutlery.png" alt="Restaurant Logo">
+      <h1>Restaurant Search</h1>
+      <p>Search by Outcode</p>
+      <mwc-textfield class="search" id="search-box" outlined placeholder="Search" iconTrailing="search"></mwc-textfield>
+      <mwc-button class="search" id="search">Find Restaurants</mwc-button>
+    </div>
+    <div class="search-actions">
+    </div>
+    <!-- Search Results Container -->
+    <div class="results-container" id="results">
+      <div class="item">
+        <div class="restaurant-img">
+          <img src="https://d30v2pzvrfyzpo.cloudfront.net/uk/images/restaurants/11245.gif" alt=""/>
+        </div>
+        <div class="item-details">
+          <div class="name">Barbican Express Pizza</div>
+          <div class="address">131 Whitecross Street, London <strong>EC1Y 8JL</strong></div>
+          <div class="restaurant-info">
+            <div class="detail">
+              <div class="info"><strong>Ratings</strong> <span class="value">5</span></div>
+              <div class="info"><strong>Cuisines</strong> <span class="value">Italian, Pizza</span></div>
+            </div>
+            <div class="status"><div class="icon yes"></div> Delivery</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

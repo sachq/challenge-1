@@ -1,0 +1,114 @@
+// @import '../../node_modules/frow/frow.sass';
+
+$background-color: #fdfdfd;
+$theme-color: #6200eede;
+$card-color: #fff;
+
+body {
+  font-family: sans-serif;
+  background-color: $background-color;
+}
+
+// Main Container
+div.container {
+  width: 60%;
+  margin: 24px auto;
+  // Search Container
+  div.search-container {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    h1 {
+      font-size: 42px;
+      margin: 0;
+    }
+    p {
+      margin: 0 0 1.5rem;
+      font-size: 18px;
+      font-weight: 300;
+    }
+    #logo {
+      width: 6rem;
+      margin: 2rem;
+    }
+  }
+  
+  /** Search Results Container **/
+  div.results-container {
+    display: flex;
+    flex-direction: column;
+    // Result Item
+    div.item {
+      width: auto;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      align-content: space-between;
+      border-radius: 4px;
+      background-color: $card-color;
+      border: 1px solid rgba(0,0,0,0.2);
+      padding: 1.8rem 2rem;
+      margin: 0.6rem 0;
+      div.restaurant-img {
+        margin-right: 1rem;
+      }
+      div.item-details {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        align-items: flex-start;
+        div.name {
+          color: $theme-color;
+          font-weight: 300;
+          font-size: 1.6rem;
+          margin-bottom: 0.2rem;
+        }
+        div.address {
+          color: #505050;
+          font-weight: 300;
+          margin-bottom: 0.6rem;
+        }
+        div.restaurant-info {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-end;
+          align-content: center;
+          justify-content: space-between;
+          width: 100%;
+          div.info {
+            font-size: 1.2rem; 
+            font-weight: 300;
+            span.value {
+              font-size: 1.4rem;
+            }
+          }
+          div.status {
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 300;
+            div.icon {
+              width: 10px;
+              height: 10px;
+              border-radius: 10px;
+              margin-right: 6px;
+            }
+            div.yes { background-color: #4caf50; }
+            div.no { background-color: #f44336; }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Component Styles */
+mwc-button.search {
+  margin-top: 2%;
+}
+mwc-textfield.search {
+  --mdc-shape-small: 28px;
+  width: 100%;
+}
