@@ -84,7 +84,7 @@ export class Restaurant {
   searchRestaurants(searchTerm) {
     const openRestaurants = this.openRestaurants.filter(restaurant => 
       new RegExp(searchTerm.toLowerCase(), 'i')
-        .test(`${restaurant.postcode}`)
+        .test(`${restaurant.postcode.split(' ').join('')}`)
     );
     this.showRestaurants(openRestaurants);
   }
