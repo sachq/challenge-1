@@ -14,9 +14,5 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Instiantiate the Restaurant Class
-const restaurant = new Restaurant({
-  searchBtn: 'search',
-  searchField: 'search-box',
-  containerEl: 'results'
-});
+const restaurant = new Restaurant({});
 restaurant.init();
