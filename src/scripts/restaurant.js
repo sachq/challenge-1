@@ -63,8 +63,10 @@ export class Restaurant {
    */
   showRestaurants(restaurants) {
     if (restaurants.length) {
+      this.resultsContainer.innerHTML = `<div class="total-restaurants">
+      <strong>${restaurants.length}</strong> Restaurants</div>`;
       const restaurantsMap = restaurants.map(restaurant => this.generateTemplate(restaurant));
-      this.resultsContainer.innerHTML = restaurantsMap.join('');
+      this.resultsContainer.innerHTML += restaurantsMap.join('');
     } else {
       this.resultsContainer.innerHTML = `
         <div id="no-match">No Matching Restaurants with Postcode 

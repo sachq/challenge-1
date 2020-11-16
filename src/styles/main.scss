@@ -36,6 +36,11 @@ div.container {
   div.results-container {
     display: flex;
     flex-direction: column;
+    div.total-restaurants {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin-bottom: 0.4rem;
+    }
     // Result Item
     div.item {
       width: auto;
