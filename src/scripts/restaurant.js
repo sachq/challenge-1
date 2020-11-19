@@ -1,100 +1,102 @@
-const RESTAURANT_DATA = require('../_data/restaurant-data.json');
+function Restaurant(options) {
 
-export class Restaurant {
-  constructor(options) {
-    this.openRestaurants = RESTAURANT_DATA.OpenRestaurants.map(restaurant => {
-      return {
-        name: restaurant.Name,
-        address: `${restaurant.Address.FirstLine}, ${restaurant.Address.City}`,
-        postcode: restaurant.Address.Postcode,
-        geo: {
-          lat: restaurant.Address.Latitude,
-          lng: restaurant.Address.Longitude
-        },
-        logoUrl: restaurant.LogoUrl,
-        cuisines: restaurant.Cuisines.map(c => c.Name).join(', '),
-        rating: restaurant.RatingDetails.StarRating,
-        isDelivery: restaurant.IsDelivery
-      };
-    }).sort((a, b) => b.rating - a.rating);
+  let self = this;
 
-    // Select all required Elements
-    this.searchBtn = document.getElementById(options.searchBtn || 'search');
-    this.clearBtn = document.getElementById(options.clearBtn || 'clear-btn');
-    this.searchField = document.getElementById(options.searchField || 'search-box');
-    this.resultsContainer = document.getElementById(options.containerEl || 'results');
+  this.options = options;
+
+  // All of the Restaurant Data
+  if (!options.data) {
+    throw new Error('Data not provided');
   }
+  const restaurantData = options.data;
 
-  init() {
-    this.initializeEvents();
-    this.showRestaurants(this.openRestaurants);
-  }
+  // Required fields for selection
+  const searchField = document.getElementById(options.searchField || 'search-box');
+  const searchBtn = document.getElementById(options.searchBtn || 'search');
+  const clearBtn = document.getElementById(options.clearBtn || 'clear-btn');
+
+  // Field required to render Result Items
+  const resultsContainer = document.getElementById(options.containerEl || 'results');
+
+  /**
+   * Initialize the Application
+   * by initializing events listeners 
+   * and show all restaurants.
+   */
+  this.init = function() {
+    initializeEvents(); // Initialize All Events (Handlers)
+    showRestaurants(this.restaurants); // Show All Restaurants
+  };
+
 
   /**
    * Initialize all Event Listeners
+   * 'Search Button Click, Search after pressing Enter
+   * and for Clear button which resets results and Search'
    */
-  initializeEvents() {
-    // Get value of Search field on click event
-    this.searchBtn.addEventListener(
-      'click', () => this.searchRestaurants(this.searchField.mdcFoundation.getNativeInput_().value)
-    );
-
+  let initializeEvents = function() {
     // Get value of Search field on keyup event (when user types) (eg. EC1Y 8JL)
-    this.searchField.addEventListener('keyup', e => {
+    searchField.addEventListener('keyup', e => {
       if (e.key === "Enter")
-        this.searchRestaurants(this.searchField.mdcFoundation.getNativeInput_().value);
+        searchRestaurants(searchField.mdcFoundation.getNativeInput_().value);
     });
 
     // Clear Search & Reset
-    this.clearBtn.addEventListener('click', e => {
-      this.searchField.mdcFoundation.getNativeInput_().value = '';
-      this.searchRestaurants('');
+    clearBtn.addEventListener('click', e => {
+      searchField.mdcFoundation.getNativeInput_().value = '';
+      searchRestaurants('');
     });
 
-    // Get Geolocation
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.info(`Location: ${position.coords.latitude}, ${position.coords.longitude}`);
-    });
-  }
+    // Get value of Search field on click event
+    searchBtn.addEventListener(
+      'click', () => searchRestaurants(searchField.mdcFoundation.getNativeInput_().value)
+    );
+  };
+
+  /**
+   * Search Restaurants (Fuzzy Match String)
+   * Match Restaurant Postcode
+   * @param searchTerm
+   */  
+  let searchRestaurants = function(searchTerm) {
+    const openRestaurants = self.restaurants.filter(restaurant => 
+      new RegExp(searchTerm.toLowerCase(), 'i')
+        .test(`${restaurant.postcode.split(' ').join('')}`)
+    );
+    // Show based on search term
+    showRestaurants(openRestaurants);
+  };
+
 
   /**
    * Render Restuarants to the Page
    * @param {*} restaurants 
    */
-  showRestaurants(restaurants) {
+  let showRestaurants = function(restaurants) {
     if (restaurants.length) {
-      this.resultsContainer.innerHTML = `<div class="total-restaurants">
-      <strong>${restaurants.length}</strong> Restaurant(s)</div>`;
-      const restaurantsMap = restaurants.map(restaurant => this.generateTemplate(restaurant));
-      this.resultsContainer.innerHTML += restaurantsMap.join('');
+      resultsContainer.innerHTML = `
+        <div class="total-restaurants">
+          <strong>${restaurants.length}</strong>
+          Restaurant(s)
+        </div>`;
+      const restaurantsMap = restaurants.map(restaurant => generateTemplate(restaurant));
+      resultsContainer.innerHTML += restaurantsMap.join('');
     } else {
-      this.resultsContainer.innerHTML = `
+      resultsContainer.innerHTML = `
         <div id="no-match">No Matching Restaurants with Postcode 
-          <strong><em>'${this.searchField.mdcFoundation.getNativeInput_().value}'</em></strong>
+          <strong><em>'${searchField.mdcFoundation.getNativeInput_().value}'</em></strong>
         </div>
       `;
     }
-  }
+  };
 
-  /**
-   * Search Restaurants
-   * Match Restaurant Postcode
-   * @param searchTerm
-   */  
-  searchRestaurants(searchTerm) {
-    const openRestaurants = this.openRestaurants.filter(restaurant => 
-      new RegExp(searchTerm.toLowerCase(), 'i')
-        .test(`${restaurant.postcode.split(' ').join('')}`)
-    );
-    this.showRestaurants(openRestaurants);
-  }
 
   /**
    * Search Item Template
    * @param restaurant Open Restaurant Object
    * @returns Item Tempate
    */
-  generateTemplate = (restaurant) => `
+  let generateTemplate = (restaurant) => `
     <div class="item">
       <div class="restaurant-img">
         <img src="${restaurant.logoUrl}" alt="${restaurant.name}"/>
@@ -104,7 +106,7 @@ export class Restaurant {
         <div class="address">${restaurant.address} <strong>${restaurant.postcode}</strong></div>
         <div class="restaurant-info">
           <div class="detail">
-            <div class="info"><strong>Ratings</strong> <span class="value">${this.ratingGenerator(restaurant.rating)}</span></div>
+            <div class="info"><strong>Ratings</strong> <span class="value">${ratingGenerator(restaurant.rating)}</span></div>
             <div class="info"><strong>Cuisines</strong> <span class="value">${restaurant.cuisines}</span></div>
           </div>
           <div class="status">
@@ -115,12 +117,13 @@ export class Restaurant {
     </div>
   `;
 
+
   /**
-   * Generate Material Icon Component 
-   * for Generating Star
+   * Generate Material Icon template for
+   * generating star based on it's rating
    * @param rating Restaurant Rating
    */
-  ratingGenerator(rating) {
+  let ratingGenerator = function(rating) {
     if (!rating) return '-';
     let ratingTemplate = '';
     for (let i = 0; i < parseInt(rating); i++) {
@@ -128,5 +131,33 @@ export class Restaurant {
     }
     if (parseInt(rating) !== rating) ratingTemplate += '<mwc-icon class="star">star_half</mwc-icon>';
     return ratingTemplate;
-  }
+  };
+
+
+  /**
+   * Getter Method to get all open restaurants
+   */
+  Object.defineProperty(this, 'restaurants', {
+    get: function() {
+      let openRestaurants = restaurantData.OpenRestaurants.map(restaurant => {
+        return {
+          name: restaurant.Name,
+          address: `${restaurant.Address.FirstLine}, ${restaurant.Address.City}`,
+          postcode: restaurant.Address.Postcode,
+          geo: {
+            lat: restaurant.Address.Latitude,
+            lng: restaurant.Address.Longitude
+          },
+          logoUrl: restaurant.LogoUrl,
+          cuisines: restaurant.Cuisines.map(c => c.Name).join(', '),
+          rating: restaurant.RatingDetails.StarRating,
+          isDelivery: restaurant.IsDelivery
+        };
+      }).sort((a, b) => b.rating - a.rating);
+      
+      return openRestaurants;
+    }
+  });
 }
+
+export { Restaurant };
